@@ -16,7 +16,9 @@
         android:contentDescription="@string/app_name"
         android:onClick="onAddImageClick"
         app:shapeAppearanceOverlay="@style/roundImage"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:srcCompat="@android:drawable/ic_menu_add"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"/>
 
     <EditText
         android:id="@+id/TextPersonName"
