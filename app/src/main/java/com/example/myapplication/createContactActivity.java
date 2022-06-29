@@ -10,13 +10,14 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
 public class createContactActivity extends AppCompatActivity {
 
-    TextView personName;
-    TextView personNumber;
+    TextView contactName;
+    TextView contactPhone;
     ImageView imageView;
     static final int GALLERY_REQUEST = 1;
     Bitmap bitmap = null;
@@ -27,14 +28,14 @@ public class createContactActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_contact);
-        personName = findViewById(R.id.TextPersonName);
-        personNumber = findViewById(R.id.TextPhone);
+        contactName = findViewById(R.id.TextPersonName);
+        contactPhone = findViewById(R.id.TextPhone);
         imageView = findViewById(R.id.contactImage);
         id = getIntent().getIntExtra("id", -1);
 
         try{
-            personName.setText(getIntent().getExtras().getString("name"));
-            personNumber.setText(getIntent().getExtras().getString("phone"));
+            contactName.setText(getIntent().getExtras().getString("name"));
+            contactPhone.setText(getIntent().getExtras().getString("phone"));
             if(getIntent().getParcelableExtra("img") != null){
                 imageView.setImageBitmap(getIntent().getParcelableExtra("img"));
             }
@@ -44,17 +45,22 @@ public class createContactActivity extends AppCompatActivity {
     }
 
     public void onSaveButtonClick(View view){
-        contactListActivity contactListsActivity = new contactListActivity();
-        contact = new Contacts(personName.getText().toString(), personNumber.getText().toString(), bitmap);
+        boolean result = contactPhone.getText().toString().matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$");
+        if(result){
+            contactListActivity contactListsActivity = new contactListActivity();
+            contact = new Contacts(contactName.getText().toString(), contactPhone.getText().toString(), bitmap);
 
-        if(id != -1){
-            contactListsActivity.listContact.set(id, contact);
+            if(id != -1){
+                contactListsActivity.listContact.set(id, contact);
+            } else {
+                contactListsActivity.listContact.add(contact);
+            }
+
+            Intent intent = new Intent(createContactActivity.this, contactListActivity.class);
+            startActivity(intent);
         } else {
-            contactListsActivity.listContact.add(contact);
+            Toast.makeText(this, "Номер телефона введен неверно", Toast.LENGTH_SHORT).show();
         }
-
-        Intent intent = new Intent(createContactActivity.this, contactListActivity.class);
-        startActivity(intent);
     }
 
     public void onAddImageClick(View view) {
