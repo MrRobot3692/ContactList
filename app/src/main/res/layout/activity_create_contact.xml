@@ -6,30 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".createContactActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/contactImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="40dp"
-        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/app_name"
+        android:onClick="onAddImageClick"
+        app:shapeAppearanceOverlay="@style/roundImage"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
     <EditText
         android:id="@+id/TextPersonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/contactImage"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="10dp"
         android:ems="10"
+        android:hint="Имя"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:hint="Имя"
-        android:text=""/>
+        android:text="" />
 
     <EditText
         android:id="@+id/TextPhone"
@@ -45,11 +48,12 @@
 
     <Button
         android:id="@+id/saveButton"
-        android:onClick="onSaveButtonClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Сохранить"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="40dp"
+        android:onClick="onSaveButtonClick"
+        android:text="Сохранить"
+        app:shapeAppearanceOverlay="@style/roundButton" />
 </RelativeLayout>
