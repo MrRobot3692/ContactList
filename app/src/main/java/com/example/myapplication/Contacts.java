@@ -1,16 +1,14 @@
 package com.example.myapplication;
 
-import android.graphics.Bitmap;
-
 public class Contacts {
     String name;
     String phone;
-    Bitmap imgBitmap;
+    byte[] imgByte;
 
-    Contacts(String name, String phone, Bitmap imgBitmap){
+    Contacts(String name, String phone, byte[] imgByte){
         this.name = name;
         this.phone = phone;
-        this.imgBitmap = imgBitmap;
+        this.imgByte = imgByte;
     }
 
     public String getName() {
@@ -29,11 +27,11 @@ public class Contacts {
         this.phone = phone;
     }
 
-    public Bitmap getImgURL() {
-        return imgBitmap;
+    public byte[] getImgByte() {
+        return imgByte;
     }
 
-    public void setImgURL(Bitmap imgBitmap) {
-        this.imgBitmap = imgBitmap;
+    public void setImgByte(byte[] imgBitmap) {
+        this.imgByte = imgBitmap;
     }
 }
