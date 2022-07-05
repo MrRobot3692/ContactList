@@ -10,28 +10,40 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class contactListActivity extends AppCompatActivity {
 
-    private ListView listView;
+    ListView listView;
+    SearchView searchView;
 
     public static List<Contacts> listContact = new ArrayList<>();
     private final static List<String> listItems = new ArrayList<>();
-    private final Contacts[] contacts = new Contacts[10];
+    private final Contacts[] contacts = new Contacts[30];
 
     int nameIndex, phoneIndex, imageIndex;
 
     dbActivity sqlite;
     SQLiteDatabase database;
     Cursor cursor;
+    generateContact generate;
+
+    private boolean generateNewDB = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(generateNewDB)
+            generate = new generateContact(this);
+        generateNewDB = false;
+
+        listView = findViewById(R.id.contactList);
+        searchView = findViewById(R.id.search);
 
         sqlite = new dbActivity(this);
         database = sqlite.getWritableDatabase();
@@ -49,17 +61,16 @@ public class contactListActivity extends AppCompatActivity {
                     contacts[loopIndex] = new Contacts(cursor.getString(nameIndex), cursor.getString(phoneIndex), cursor.getBlob(imageIndex));
                 else
                     contacts[loopIndex] = new Contacts(cursor.getString(nameIndex), cursor.getString(phoneIndex), null);
-
                 listContact.add(contacts[loopIndex]);
                 loopIndex++;
             }
         }
         cursor.close();
 
-        listView = findViewById(R.id.contactList);
         listItems.clear();
         for(int i = 0; i < listContact.size(); i++)
-            listItems.add(listContact.get(i).getName());
+            if(listContact.get(i) != null)
+                listItems.add(listContact.get(i).getName());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems);
         listView.setAdapter(adapter);
     }
@@ -67,15 +78,43 @@ public class contactListActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-
         listView.setOnItemClickListener((AdapterView<?> adapterView, View view, int i, long l) -> {
             Intent intent = new Intent(contactListActivity.this, contactCard.class);
-            intent.putExtra("name", listContact.get(i).getName());
-            intent.putExtra("phone", listContact.get(i).getPhone());
-            intent.putExtra("img", listContact.get(i).getImgByte());
-            intent.putExtra("id", i);
-            startActivity(intent);
+            for(int j = 0; j < listContact.size(); j++){
+                try {
+                    if(listContact.get(j).getName().equals(listItems.get(i))) {
+                        intent.putExtra("name", listContact.get(j).getName());
+                        intent.putExtra("phone", listContact.get(j).getPhone());
+                        intent.putExtra("img", listContact.get(j).getImgByte());
+                        intent.putExtra("id", j);
+                        startActivity(intent);
+                        break;
+                    }
+                } catch (Exception e){}
+            }
         });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                search(query);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                search(newText);
+                return false;
+            }
+        });
+    }
+
+    public void search(String searchText){
+        listItems.clear();
+        for(int i = 0; i < listContact.size(); i++)
+            if(listContact.get(i) != null && listContact.get(i).name.contains(searchText))
+                listItems.add(listContact.get(i).getName());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems);
+        listView.setAdapter(adapter);
     }
 
     public void onAddContactClick(View view) {

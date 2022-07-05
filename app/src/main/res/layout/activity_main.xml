@@ -6,25 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".contactListActivity">
 
-    <Button
-        android:id="@+id/addContactClick"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="+"
-        app:cornerRadius="30dp"
-        android:layout_alignParentRight="true"
-        android:textSize="30sp"
-        android:layout_alignParentBottom="true"
-        android:onClick="onAddContactClick"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="15dp"/>
+    <SearchView
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
 
     <ListView
         android:id="@+id/contactList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="60dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/addContactClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/roundcorner"
+        android:padding="18dp"
+        android:onClick="onAddContactClick"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:shapeAppearanceOverlay="@style/roundButton"
+        app:srcCompat="@drawable/adduser24" />
+
+    <!--<ImageButton
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        app:shapeAppearanceOverlay="@style/roundButton"
+        app:srcCompat="@drawable/search24" />-->
 </RelativeLayout>

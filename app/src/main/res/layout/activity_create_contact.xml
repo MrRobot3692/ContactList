@@ -8,26 +8,26 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/contactImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="40dp"
+        android:adjustViewBounds="true"
         android:contentDescription="@string/app_name"
         android:onClick="onAddImageClick"
-        app:shapeAppearanceOverlay="@style/roundImage"
-        app:srcCompat="@android:drawable/ic_menu_add"
         android:scaleType="centerCrop"
-        android:adjustViewBounds="true"/>
+        app:shapeAppearanceOverlay="@style/roundImage"
+        app:srcCompat="@drawable/photo" />
 
     <EditText
         android:id="@+id/TextPersonName"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/contactImage"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="50dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="10dp"
         android:ems="10"
@@ -38,15 +38,15 @@
 
     <EditText
         android:id="@+id/TextPhone"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/TextPersonName"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="50dp"
         android:ems="10"
         android:hint="Номер телефона"
         android:inputType="phone"
         android:minHeight="48dp"
-        android:text=""/>
+        android:text="" />
 
     <Button
         android:id="@+id/saveButton"

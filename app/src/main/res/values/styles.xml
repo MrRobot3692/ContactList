@@ -8,6 +8,7 @@
     <style name="roundButton" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">30dp</item>
+        <item name="background">@color/green_500</item>
         <item name="color">@color/white</item>
     </style>
 </resources>

@@ -53,7 +53,7 @@ public class createContactActivity extends AppCompatActivity {
             if(getIntent().getByteArrayExtra("img") != null)
                 imageView.setImageBitmap(convertByte.convertCompressedByteArrayToBitmap(getIntent().getByteArrayExtra("img")));
         } catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -64,7 +64,7 @@ public class createContactActivity extends AppCompatActivity {
             Toast.makeText(this, "Номер телефона введен неверно", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        //contactListActivity.listContact.add(new Contacts(contactName.getText().toString(), contactPhone.getText().toString(), image));
         contact = new Contacts(contactName.getText().toString(), contactPhone.getText().toString(), image);
 
         contentValues.put(dbActivity.key_name, contactName.getText().toString());
@@ -91,19 +91,18 @@ public class createContactActivity extends AppCompatActivity {
         mStartForResult.launch(photoPickerIntent);
     }
 
-    ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if(result.getResultCode() != RESULT_OK)
-                        return;
-                    Uri selectedImage = result.getData().getData();
-                    try {
-                        image = convertByte.convertBitmapToByteArray(MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage));
-                        imageView.setImageBitmap(convertByte.convertCompressedByteArrayToBitmap(image));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+    ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() != RESULT_OK)
+                return;
+            Uri selectedImage = result.getData().getData();
+            try {
+                image = convertByte.convertBitmapToByteArray(MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage));
+                imageView.setImageBitmap(convertByte.convertCompressedByteArrayToBitmap(image));
+            } catch (IOException e) {
+                //e.printStackTrace();
+            }
+        }
+    });
 }

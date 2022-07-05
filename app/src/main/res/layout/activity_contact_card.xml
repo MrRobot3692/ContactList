@@ -6,17 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".contactCard">
 
+    <ImageButton
+        android:id="@+id/callButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contactName"
+        android:layout_marginTop="15dp"
+        android:layout_toLeftOf="@id/editButton"
+        android:background="@drawable/roundcorner"
+        android:onClick="onCallClick"
+        android:padding="18dp"
+        app:shapeAppearanceOverlay="@style/roundButton"
+        app:srcCompat="@drawable/phone24" />
+
+    <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contactName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/roundcorner"
+        android:onClick="onEditContactClick"
+        android:padding="18dp"
+        app:shapeAppearanceOverlay="@style/roundButton"
+        app:srcCompat="@drawable/edit24" />
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contactName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/editButton"
+        android:onClick="onDeleteContactClick"
+        android:background="@drawable/roundcorner"
+        android:padding="18dp"
+        app:shapeAppearanceOverlay="@style/roundButton"
+        app:srcCompat="@drawable/delete24" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/contactImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="10dp"
-        app:shapeAppearanceOverlay="@style/roundImage"
-        app:srcCompat="@drawable/avatar"
+        android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:adjustViewBounds="true"/>
+        app:shapeAppearanceOverlay="@style/roundImage"
+        app:srcCompat="@drawable/avatar" />
 
 
     <TextView
@@ -27,28 +70,35 @@
         android:layout_centerHorizontal="true"
         android:text="ncdjkcjdks"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/callButton"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/phoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/contactName"
+        android:layout_below="@id/callButton"
+        android:layout_toRightOf="@id/phoneInfo"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="20sp"
-        android:text="" />
+        android:text="88005553535"
+        android:textSize="17dp" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:onClick="onEditContactClick"
-        android:text="Редактировать"
-        app:shapeAppearanceOverlay="@style/roundButton" />
+    <TextView
+        android:id="@+id/phoneInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/callButton"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="40dp"
+        android:text="Мобильный:"
+        android:textSize="17dp"
+        android:textStyle="bold" />
 </RelativeLayout>
