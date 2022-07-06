@@ -1,9 +1,13 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.widget.TextView;
 
 public class contactCard extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 1;
     TextView contactName;
     TextView contactPhone;
     ImageView imageView;
@@ -65,9 +70,11 @@ public class contactCard extends AppCompatActivity {
     }
 
     public void onCallClick(View view) throws SecurityException{
-        String toDial="tel:"+contactPhone.getText().toString();
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(toDial));
-        if (intent.resolveActivity(getPackageManager()) != null)
-            startActivity(intent);
+        String toDial = "tel:"+contactPhone.getText().toString();
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CODE);
+        } else startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(toDial)));
     }
 }
