@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".createContactActivity">
 
+    <RelativeLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <include
+            android:id="@+id/tool_bar"
+            layout="@layout/tool_bar" />
+    </RelativeLayout>
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/contactImage"
         android:layout_width="100dp"
@@ -16,6 +25,7 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/app_name"
         android:onClick="onAddImageClick"
+        android:layout_below="@id/toolbar_container"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/roundImage"
         app:srcCompat="@drawable/photo" />

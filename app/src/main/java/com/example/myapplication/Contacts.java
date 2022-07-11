@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
-public class Contacts {
+import java.io.Serializable;
+
+public class Contacts implements Serializable {
     String name;
     String phone;
     byte[] imgByte;

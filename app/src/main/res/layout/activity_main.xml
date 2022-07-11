@@ -6,15 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".contactListActivity">
 
+    <RelativeLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <include
+            android:id="@+id/tool_bar"
+            layout="@layout/tool_bar" />
+    </RelativeLayout>
+
     <SearchView
         android:id="@+id/search"
         android:layout_width="match_parent"
-        android:layout_height="60dp"/>
+        android:layout_height="60dp"
+        android:layout_below="@id/toolbar_container"/>
 
     <ListView
         android:id="@+id/contactList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_container"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="60dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,13 +35,13 @@
         android:id="@+id/addContactClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/roundcorner"
-        android:padding="18dp"
-        android:onClick="onAddContactClick"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/roundcorner"
+        android:onClick="onAddContactClick"
+        android:padding="18dp"
         app:shapeAppearanceOverlay="@style/roundButton"
         app:srcCompat="@drawable/adduser24" />
 

@@ -121,4 +121,9 @@ public class contactListActivity extends AppCompatActivity {
         Intent intent = new Intent(contactListActivity.this, createContactActivity.class);
         startActivity(intent);
     }
+
+    public void onSettingsClick(View view) {
+        Intent intent = new Intent(contactListActivity.this, settingsActivity.class);
+        startActivity(intent);
+    }
 }
