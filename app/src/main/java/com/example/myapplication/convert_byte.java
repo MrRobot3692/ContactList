@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class convertByte {
+public class convert_byte {
     public static byte[] convertBitmapToByteArray(Bitmap bitmap){
         ByteArrayOutputStream baos = null;
         try {

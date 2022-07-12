@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-public class createContactActivity extends AppCompatActivity {
+public class create_contact_activity extends AppCompatActivity {
 
     private TextView contactName;
     private TextView contactPhone;
@@ -28,8 +28,8 @@ public class createContactActivity extends AppCompatActivity {
     private static int id = -1;
     private byte[] image;
 
-    dbActivity sqlite;
-    Contacts contact;
+    database_controller sqlite;
+    contacts contact;
 
     private SQLiteDatabase database;
     private final ContentValues contentValues = new ContentValues();
@@ -43,17 +43,17 @@ public class createContactActivity extends AppCompatActivity {
         contactPhone = findViewById(R.id.TextPhone);
         imageView = findViewById(R.id.contactImage);
 
-        sqlite = new dbActivity(this);
-        database = sqlite.getWritableDatabase();
+            sqlite = new database_controller(this);
+            database = sqlite.getWritableDatabase();
 
         try{
             id = getIntent().getIntExtra("id", -1);
             contactName.setText(getIntent().getExtras().getString("name"));
             contactPhone.setText(getIntent().getExtras().getString("phone"));
             if(getIntent().getByteArrayExtra("img") != null)
-                imageView.setImageBitmap(convertByte.convertCompressedByteArrayToBitmap(getIntent().getByteArrayExtra("img")));
+                imageView.setImageBitmap(convert_byte.convertCompressedByteArrayToBitmap(getIntent().getByteArrayExtra("img")));
         } catch (Exception e){
-            //e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -64,24 +64,24 @@ public class createContactActivity extends AppCompatActivity {
             Toast.makeText(this, "Номер телефона введен неверно", Toast.LENGTH_SHORT).show();
             return;
         }
-        //contactListActivity.listContact.add(new Contacts(contactName.getText().toString(), contactPhone.getText().toString(), image));
-        contact = new Contacts(contactName.getText().toString(), contactPhone.getText().toString(), image);
 
-        contentValues.put(dbActivity.key_name, contactName.getText().toString());
-        contentValues.put(dbActivity.key_phone, contactPhone.getText().toString());
-        contentValues.put(dbActivity.key_image, image);
+        contact = new contacts(contactName.getText().toString(), contactPhone.getText().toString(), image);
+
+        contentValues.put(database_controller.key_name, contactName.getText().toString());
+        contentValues.put(database_controller.key_phone, contactPhone.getText().toString());
+        contentValues.put(database_controller.key_image, image);
 
         if(id != -1){
-            database.update(dbActivity.table_name, contentValues, dbActivity.key_name + " = ?", new String[]{getIntent().getExtras().getString("name")});
-            contactListActivity.listContact.set(id, contact);
+            database.update(database_controller.table_name, contentValues, database_controller.key_name + " = ?", new String[]{getIntent().getExtras().getString("name")});
+            contact_list_activity.listContact.set(id, contact);
         } else {
-            database.insert(dbActivity.table_name, null, contentValues);
-            contactListActivity.listContact.add(contact);
+            database.insert(database_controller.table_name, null, contentValues);
+            contact_list_activity.listContact.add(contact);
         }
 
         database.close();
 
-        Intent intent = new Intent(createContactActivity.this, contactListActivity.class);
+        Intent intent = new Intent(create_contact_activity.this, contact_list_activity.class);
         startActivity(intent);
     }
 
@@ -98,8 +98,8 @@ public class createContactActivity extends AppCompatActivity {
                 return;
             Uri selectedImage = result.getData().getData();
             try {
-                image = convertByte.convertBitmapToByteArray(MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage));
-                imageView.setImageBitmap(convertByte.convertCompressedByteArrayToBitmap(image));
+                image = convert_byte.convertBitmapToByteArray(MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage));
+                imageView.setImageBitmap(convert_byte.convertCompressedByteArrayToBitmap(image));
             } catch (IOException e) {
                 //e.printStackTrace();
             }

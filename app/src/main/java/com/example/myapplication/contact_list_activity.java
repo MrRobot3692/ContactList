@@ -15,21 +15,22 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class contactListActivity extends AppCompatActivity {
+public class contact_list_activity extends AppCompatActivity {
 
     ListView listView;
     SearchView searchView;
 
-    public static List<Contacts> listContact = new ArrayList<>();
+    public static List<com.example.myapplication.contacts> listContact = new ArrayList<>();
     private final static List<String> listItems = new ArrayList<>();
-    private final Contacts[] contacts = new Contacts[30];
+    private final static int contactListSize = 255;
+    private final com.example.myapplication.contacts[] contacts = new contacts[contactListSize];
 
     int nameIndex, phoneIndex, imageIndex;
 
-    dbActivity sqlite;
+    database_controller sqlite;
     SQLiteDatabase database;
     Cursor cursor;
-    generateContact generate;
+    generate_contact generate;
 
     private boolean generateNewDB = false;
 
@@ -39,28 +40,30 @@ public class contactListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if(generateNewDB)
-            generate = new generateContact(this);
+            generate = new generate_contact(this);
         generateNewDB = false;
 
         listView = findViewById(R.id.contactList);
         searchView = findViewById(R.id.search);
 
-        sqlite = new dbActivity(this);
+        sqlite = new database_controller(this);
         database = sqlite.getWritableDatabase();
-        cursor = database.query(dbActivity.table_name, null, null, null, null, null, null);
+        cursor = database.query(database_controller.table_name, null, null, null, null, null, null);
 
         if(cursor.moveToFirst() && listContact.size()<1){
             int loopIndex = 0;
 
-            nameIndex = cursor.getColumnIndex(dbActivity.key_name);
-            phoneIndex = cursor.getColumnIndex(dbActivity.key_phone);
-            imageIndex = cursor.getColumnIndex(dbActivity.key_image);
+            nameIndex = cursor.getColumnIndex(database_controller.key_name);
+            phoneIndex = cursor.getColumnIndex(database_controller.key_phone);
+            imageIndex = cursor.getColumnIndex(database_controller.key_image);
 
             while (cursor.moveToNext()) {
+                if(loopIndex>=contactListSize)
+                    break;
                 if(cursor.getBlob(imageIndex) != null)
-                    contacts[loopIndex] = new Contacts(cursor.getString(nameIndex), cursor.getString(phoneIndex), cursor.getBlob(imageIndex));
+                    contacts[loopIndex] = new contacts(cursor.getString(nameIndex), cursor.getString(phoneIndex), cursor.getBlob(imageIndex));
                 else
-                    contacts[loopIndex] = new Contacts(cursor.getString(nameIndex), cursor.getString(phoneIndex), null);
+                    contacts[loopIndex] = new contacts(cursor.getString(nameIndex), cursor.getString(phoneIndex), null);
                 listContact.add(contacts[loopIndex]);
                 loopIndex++;
             }
@@ -79,7 +82,7 @@ public class contactListActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         listView.setOnItemClickListener((AdapterView<?> adapterView, View view, int i, long l) -> {
-            Intent intent = new Intent(contactListActivity.this, contactCard.class);
+            Intent intent = new Intent(contact_list_activity.this, contact_card_activity.class);
             for(int j = 0; j < listContact.size(); j++){
                 try {
                     if(listContact.get(j).getName().equals(listItems.get(i))) {
@@ -118,12 +121,12 @@ public class contactListActivity extends AppCompatActivity {
     }
 
     public void onAddContactClick(View view) {
-        Intent intent = new Intent(contactListActivity.this, createContactActivity.class);
+        Intent intent = new Intent(contact_list_activity.this, create_contact_activity.class);
         startActivity(intent);
     }
 
     public void onSettingsClick(View view) {
-        Intent intent = new Intent(contactListActivity.this, settingsActivity.class);
+        Intent intent = new Intent(contact_list_activity.this, settings_activity.class);
         startActivity(intent);
     }
 }

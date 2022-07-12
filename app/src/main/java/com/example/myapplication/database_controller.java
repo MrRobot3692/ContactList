@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class dbActivity extends SQLiteOpenHelper {
+public class database_controller extends SQLiteOpenHelper {
 
-    public static final int database_version = 2;
+    public static final int database_version = 1;
     public static String database_name = "contactsDB";
     public static String table_name = "contact";
 
@@ -17,7 +17,7 @@ public class dbActivity extends SQLiteOpenHelper {
     public static final String key_phone = "phone_number";
     public static final String key_image = "image";
 
-    public dbActivity(@Nullable Context context) {
+    public database_controller(@Nullable Context context) {
         super(context, database_name, null, database_version);
     }
 

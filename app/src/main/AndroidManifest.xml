@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -18,16 +19,16 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".settingsActivity"
+            android:name=".settings_activity"
             android:exported="false" />
         <activity
-            android:name=".createContactActivity"
+            android:name=".create_contact_activity"
             android:exported="false" />
         <activity
-            android:name=".contactCard"
+            android:name=".contact_card_activity"
             android:exported="false" />
         <activity
-            android:name=".contactListActivity"
+            android:name=".contact_list_activity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -5,7 +5,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class contactCard extends AppCompatActivity {
+public class contact_card_activity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 1;
     TextView contactName;
@@ -23,7 +22,7 @@ public class contactCard extends AppCompatActivity {
     ImageView imageView;
     private static int id = -1;
 
-    dbActivity sqlite;
+    database_controller sqlite;
 
     private SQLiteDatabase database;
 
@@ -36,7 +35,7 @@ public class contactCard extends AppCompatActivity {
         contactPhone = findViewById(R.id.phoneNumber);
         imageView = findViewById(R.id.contactImage);
 
-        sqlite = new dbActivity(this);
+        sqlite = new database_controller(this);
         database = sqlite.getWritableDatabase();
 
         id = getIntent().getIntExtra("id", -1);
@@ -44,13 +43,13 @@ public class contactCard extends AppCompatActivity {
         contactPhone.setText(getIntent().getExtras().getString("phone"));
         if(getIntent().getByteArrayExtra("img") != null){
             try{
-                imageView.setImageBitmap(convertByte.convertCompressedByteArrayToBitmap(getIntent().getByteArrayExtra("img")));
+                imageView.setImageBitmap(convert_byte.convertCompressedByteArrayToBitmap(getIntent().getByteArrayExtra("img")));
             } catch (Exception e){}
         }
     }
 
     public void onEditContactClick(View view){
-        Intent intent = new Intent(contactCard.this, createContactActivity.class);
+        Intent intent = new Intent(contact_card_activity.this, create_contact_activity.class);
 
         intent.putExtra("id", id);
         System.out.println(id);
@@ -62,10 +61,10 @@ public class contactCard extends AppCompatActivity {
     }
 
     public void onDeleteContactClick(View view){
-        database.delete(dbActivity.table_name, dbActivity.key_name + "=?", new String[]{getIntent().getExtras().getString("name")});
-        contactListActivity.listContact.set(id, null);
+        database.delete(database_controller.table_name, database_controller.key_name + "=?", new String[]{getIntent().getExtras().getString("name")});
+        contact_list_activity.listContact.set(id, null);
         System.out.println(id);
-        Intent intent = new Intent(contactCard.this, contactListActivity.class);
+        Intent intent = new Intent(contact_card_activity.this, contact_list_activity.class);
         startActivity(intent);
     }
 

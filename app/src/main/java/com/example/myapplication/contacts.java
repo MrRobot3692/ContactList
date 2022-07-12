@@ -2,12 +2,12 @@ package com.example.myapplication;
 
 import java.io.Serializable;
 
-public class Contacts implements Serializable {
+public class contacts implements Serializable {
     String name;
     String phone;
     byte[] imgByte;
 
-    Contacts(String name, String phone, byte[] imgByte){
+    contacts(String name, String phone, byte[] imgByte){
         this.name = name;
         this.phone = phone;
         this.imgByte = imgByte;

@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-public class generateContact{
-    dbActivity sqlite;
+public class generate_contact {
+    database_controller sqlite;
 
     private int a = 0, b = 10;
     private byte[] image;
@@ -13,15 +13,15 @@ public class generateContact{
     private SQLiteDatabase database;
     private final ContentValues contentValues = new ContentValues();
 
-    generateContact(Context context){
-        sqlite = new dbActivity(context);
+    generate_contact(Context context){
+        sqlite = new database_controller(context);
         database = sqlite.getWritableDatabase();
-        database.delete(dbActivity.table_name, null, null);
+        database.delete(database_controller.table_name, null, null);
         for(int i = 0; i < 30; i++){
-            contentValues.put(dbActivity.key_name, generateFirstName((int) (Math.random()*(b-a)+a)));
-            contentValues.put(dbActivity.key_phone, generatePhoneNumber());
-            contentValues.put(dbActivity.key_image, image);
-            database.insert(dbActivity.table_name, null, contentValues);
+            contentValues.put(database_controller.key_name, generateFirstName((int) (Math.random()*(b-a)+a)));
+            contentValues.put(database_controller.key_phone, generatePhoneNumber());
+            contentValues.put(database_controller.key_image, image);
+            database.insert(database_controller.table_name, null, contentValues);
             contentValues.clear();
         }
         database.close();
