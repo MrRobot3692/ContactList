@@ -27,15 +27,18 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class settings_activity extends AppCompatActivity {
     ListView listView;
 
     private static final int _export = 0, _import = 1, _clear = 2;
-    private static final String[] list = {"Экспорт контактов", "Импорт контактов"};
+    private static final String[] list = {"Экспорт контактов", "Импорт контактов", "Очистить список контактов"};
 
     database_controller sqlite;
 
@@ -73,7 +76,11 @@ public class settings_activity extends AppCompatActivity {
                     requestPermissions(permissions, _import);
                     break;
                 case _clear:
-
+                    contact_list_activity.listContact.clear();
+                    database.delete(database_controller.table_name, null, null);
+                    Toast.makeText(getApplicationContext(), "Список контактов очищен", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(settings_activity.this, contact_list_activity.class);
+                    startActivity(intent);
                     break;
                 default:
                     break;
@@ -82,14 +89,20 @@ public class settings_activity extends AppCompatActivity {
     }
 
     ActivityResultLauncher<Intent> exportActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onActivityResult(ActivityResult result) {
             if(result.getResultCode() != RESULT_OK)
                 return;
             Uri uri = result.getData().getData();
-
-            try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getFilePath(uri) + "/contact.dat"))) {
-                System.out.println(getFilePath(uri) + "/contact.dat");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            String fileName = "contact " + dtf.format(now) + ".dat";
+            fileName = fileName.replace(":", "-");
+            fileName = fileName.replace(" ", "_");
+            fileName = fileName.replace("/", "_");
+            try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getFilePath(uri) + "/" + fileName))) {
+                System.out.println(getFilePath(uri) + "/" + fileName);
                 oos.writeObject(contact_list_activity.listContact);
                 Toast.makeText(getApplicationContext(), "Экспорт успешно завершен", Toast.LENGTH_SHORT).show();
             } catch(Exception ex){
@@ -117,6 +130,8 @@ public class settings_activity extends AppCompatActivity {
                     contentValues.clear();
                     System.out.println(listContact.get(i).getName() + ": Импортирован успешно");
                 }
+                Intent intent = new Intent(settings_activity.this, contact_list_activity.class);
+                startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Импорт успешно завершен", Toast.LENGTH_SHORT).show();
             } catch(Exception ex){
                 System.out.println(ex.getMessage());
@@ -143,9 +158,6 @@ public class settings_activity extends AppCompatActivity {
                     scheme += "%3A" + startDir;
                     uri = Uri.parse(scheme);
                     intent.putExtra("android.provider.extra.INITIAL_URI", uri);
-                    exportActivity.launch(intent);
-                } else {
-                    intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
                     exportActivity.launch(intent);
                 }
                 break;
